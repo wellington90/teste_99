@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webcolor
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webcolor
+  template:
+    metadata:
+      labels:
+        app: webcolor
+    spec:
+      containers:
+      - name: web-page
+        #image: fabricioveronez/web-page:green
+        image: fabricioveronez/web-page:blue
+        ports:
+          - containerPort: 80

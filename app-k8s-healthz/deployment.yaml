@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-healthz-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-healthz
+  template:
+    metadata:
+      labels:
+        app: app-healthz
+    spec:
+      containers:
+      - name: app-healthz
+        image: w3ll1n9t0n/healthz
+        ports:
+        - containerPort: 5000
+      
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          periodSeconds: 2
+          failureThreshold: 3
+      
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          periodSeconds: 2
+          failureThreshold: 2
+      
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          periodSeconds: 5
+          failureThreshold: 1
+          timeoutSeconds: 1
+          successThreshold: 1
